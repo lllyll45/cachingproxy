@@ -1,5 +1,7 @@
 package com.example.cachingproxy;
 
+import com.example.cachingproxy.cache.Cache;
+import com.example.cachingproxy.cache.InMemoryCache;
 import com.example.cachingproxy.cli.CliArgs;
 import com.example.cachingproxy.cli.CliParser;
 import com.example.cachingproxy.proxy.OriginClient;
@@ -18,7 +20,8 @@ public class Main {
                 // TODO: очистить кэш (шаг 4)
             } else {
                 OriginClient originClient = new OriginClient(parsed.origin());
-                ProxyHandler handler = new ProxyHandler(originClient);
+                Cache cache = new InMemoryCache();
+                ProxyHandler handler = new ProxyHandler(originClient, cache);
                 ProxyServer server = new ProxyServer(parsed.port(), handler);
                 server.start();
                 System.out.println("Proxy started on port " + parsed.port()

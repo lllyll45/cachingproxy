@@ -25,7 +25,9 @@ public class OriginClient {
 
     public OriginClient(String baseUrl) {
         this.baseUrl = baseUrl;
-        this.httpClient = HttpClient.newHttpClient();
+        this.httpClient = HttpClient.newBuilder()
+                .followRedirects(HttpClient.Redirect.NORMAL)
+                .build();
     }
 
     public HttpResponse<byte[]> forward(String method,
